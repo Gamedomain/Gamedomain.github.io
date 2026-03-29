@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Захиалга</title>
+  <style>
+    :root {
+      --bg: #090912;
+      --panel: rgba(18, 13, 41, 0.95);
+      --border: rgba(137, 89, 255, 0.25);
+      --glow: #9c4dff;
+      --text: #e8e8ff;
+      --muted: #a8a0cc;
+      --danger: #ff5c8a;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      background: radial-gradient(circle at top, rgba(133, 79, 255, 0.28), transparent 25%),
+                  radial-gradient(circle at bottom right, rgba(136, 70, 255, 0.18), transparent 18%),
+                  linear-gradient(180deg, #07070c 0%, #0d0c16 100%);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container {
+      width: min(980px, 100%);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      box-shadow: 0 0 120px rgba(156, 77, 255, 0.16);
+      padding: 32px;
+      backdrop-filter: blur(18px);
+    }
+    h1 {
+      margin: 0 0 28px;
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      letter-spacing: 0.04em;
+      color: #f5f1ff;
+      text-shadow: 0 0 18px rgba(156, 77, 255, 0.4);
+    }
+    .section {
+      margin-bottom: 24px;
+    }
+    .label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    input[type="text"], input[type="tel"], input[type="number"] {
+      width: 100%;
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(12, 8, 33, 0.85);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+    input::placeholder {
+      color: rgba(217, 208, 255, 0.55);
+    }
+    .section-description {
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .service-btn {
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 18px 20px;
+      text-align: left;
+      background: rgba(7, 5, 24, 0.8);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+      position: relative;
+    }
+    .service-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(156, 77, 255, 0.45);
+    }
+    .service-btn.active {
+      border-color: #9c4dff;
+      background: rgba(84, 28, 179, 0.24);
+      box-shadow: 0 0 20px rgba(156, 77, 255, 0.22);
+    }
+    .service-name {
+      font-weight: 700;
+      margin: 0 0 6px;
+      color: #f9f7ff;
+    }
+    .service-price {
+      font-size: 0.95rem;
+      color: #9c8df8;
+    }
+    .service-btn .badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      color: #8b84d9;
+      font-size: 0.85rem;
+    }
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+    }
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: linear-gradient(135deg, rgba(156,77,255,0.85), rgba(113,51,255,0.9));
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 16px 40px rgba(156, 77, 255, 0.18);
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+    .note {
+      color: #b8b0db;
+      font-size: 0.95rem;
+    }
+    .error {
+      color: #ff7fa4;
+      margin-top: 10px;
+      font-size: 0.94rem;
+    }
+    @media (max-width: 540px) {
+      .footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Захиалга өгөх</h1>
+    <form id="orderForm">
+      <div class="section">
+        <label class="label" for="link">1. Линк (LINK)</label>
+        <div class="input-wrap">
+          <input id="link" name="link" type="text" placeholder="Линкээ оруулна уу" required />
+        </div>
+      </div>
+      <div class="section">
+        <label class="label" for="phone">2. Холбогдох дугаараа оруулна уу</label>
+        <div class="input-wrap">
+          <input id="phone" name="phone" type="tel" placeholder="Утасны дугаараа оруулна уу" required />
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-description">3. Үйлчилгээг сонгоно уу</div>
+        <div class="services" id="services">
+          <button type="button" class="service-btn" data-service="IG Followers" data-price="7000"> 
+            <div class="service-name">IG Followers</div>
+            <div class="service-price">1k = 7,000₮</div>
+          </button>
+          <button type="button" class="service-btn" data-service="FB Page Followers" data-price="7000">
+            <div class="service-name">FB Page Followers</div>
+            <div class="service-price">1k = 7,000₮</div>
+          </button>
+          <button type="button" class="service-btn" data-service="FB Group Members" data-price="4000">
+            <div class="service-name">FB Group Members</div>
+            <div class="service-price">1k = 4,000₮</div>
+          </button>
+          <button type="button" class="service-btn" data-service="IG Reel/Post Like" data-price="5000">
+            <div class="service-name">IG Reel/Post Like</div>
+            <div class="service-price">1k = 5,000₮</div>
+          </button>
+          <button type="button" class="service-btn" data-service="FB Post Share" data-price="10000">
+            <div class="service-name">FB Post Share</div>
+            <div class="service-price">1k = 10,000₮</div>
+          </button>
+          <button type="button" class="service-btn" data-service="FB Post Reaction" data-price="5000">
+            <div class="service-name">FB Post Reaction</div>
+            <div class="service-price">1k = 5,000₮</div>
+          </button>
+          <button type="button" class="service-btn" data-service="TikTok Like" data-price="6000">
+            <div class="service-name">TikTok Like</div>
+            <div class="service-price">1k = 6,000₮</div>
+          </button>
+        </div>
+      </div>
+      <div class="section">
+        <label class="label" for="count">4. Тоо ширхэг</label>
+        <div class="input-wrap">
+          <input id="count" name="count" type="number" min="1" step="1" value="1000" required />
+        </div>
+      </div>
+      <div class="footer">
+        <p class="note">Эхлээд бүтээгдэхүүнийг сонгоод дараа нь мэдээллээ бичнэ үү.</p>
+        <button type="submit" class="submit-btn">Захиалга өгөх</button>
+      </div>
+      <p class="error" id="errorText" aria-live="polite"></p>
+    </form>
+  </div>
+  <script>
+    const serviceButtons = document.querySelectorAll('.service-btn');
+    const errorText = document.getElementById('errorText');
+    let selectedService = null;
+
+    serviceButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        serviceButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        selectedService = {
+          name: button.dataset.service,
+          price: button.dataset.price
+        };
+        errorText.textContent = '';
+      });
+    });
+
+    document.getElementById('orderForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const link = document.getElementById('link').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const count = document.getElementById('count').value.trim();
+
+      if (!link || !phone || !count) {
+        errorText.textContent = 'Бүх талбаруудыг бөглөнө үү.';
+        return;
+      }
+      if (!selectedService) {
+        errorText.textContent = 'Үйлчилгээг сонгоно уу.';
+        return;
+      }
+      const params = new URLSearchParams({
+        service: selectedService.name,
+        price: selectedService.price,
+        link,
+        phone,
+        count
+      });
+      window.location.href = 'order.html?' + params.toString();
+    });
+  </script>
+</body>
+</html>
