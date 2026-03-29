@@ -217,9 +217,9 @@
         </div>
       </div>
       <div class="section">
-        <label class="label" for="count">4. Тоо ширхэг (1000-аар)</label>
+        <label class="label" for="count">4. Тоо ширхэг (1 = 1k)</label>
         <div class="input-wrap">
-          <input id="count" name="count" type="number" min="1000" step="1000" value="1000" required />
+          <input id="count" name="count" type="number" min="1" step="1" value="1" required />
         </div>
       </div>
       <div class="footer">
@@ -257,8 +257,8 @@
         return;
       }
       const countValue = Number(count);
-      if (countValue < 1000 || countValue % 1000 !== 0) {
-        errorText.textContent = 'Тоо ширхэг нь 1000-аар нэмэгдэх ёстой.';
+      if (!Number.isInteger(countValue) || countValue < 1) {
+        errorText.textContent = 'Тоо ширхэг нь 1-аас их, бүхэл тоо байх ёстой.';
         return;
       }
       if (!selectedService) {
