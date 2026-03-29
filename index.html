@@ -3,83 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bot Service</title>
+  <title>Digital Store</title>
   <style>
     :root {
-      --bg: #090912;
-      --panel: rgba(18, 13, 41, 0.95);
-      --border: rgba(137, 89, 255, 0.25);
-      --glow: #9c4dff;
-      --text: #e8e8ff;
-      --muted: #a8a0cc;
-      --danger: #ff5c8a;
+      --bg: #090b17;
+      --surface: rgba(19, 12, 42, 0.92);
+      --surface-strong: rgba(29, 16, 70, 0.96);
+      --primary: #9f49ff;
+      --primary-strong: #8f32ff;
+      --accent: #3be2ff;
+      --text: #f6f4ff;
+      --muted: #9d90c6;
+      --border: rgba(159, 73, 255, 0.22);
     }
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
       font-family: Inter, system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(133, 79, 255, 0.28), transparent 25%),
-        radial-gradient(circle at bottom right, rgba(136, 70, 255, 0.18), transparent 18%),
-        linear-gradient(180deg, #07070c 0%, #0d0c16 100%),
-        url('bg.jpg') center/cover no-repeat;
-      background-blend-mode: screen, screen, normal, normal;
       color: var(--text);
+      background: radial-gradient(circle at top left, rgba(63, 32, 178, 0.24), transparent 24%),
+                  radial-gradient(circle at bottom right, rgba(45, 206, 255, 0.14), transparent 20%),
+                  linear-gradient(180deg, #070714 0%, #090817 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
     }
-    .container {
-      width: min(980px, 100%);
-      background: var(--panel);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .page {
+      width: min(1080px, 100%);
+      display: grid;
+      gap: 24px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 24px;
+    }
+    .hero-card,
+    .form-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 28px;
-      box-shadow: 0 0 120px rgba(156, 77, 255, 0.16);
-      padding: 32px;
-      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 80px rgba(81, 38, 180, 0.18);
+      overflow: hidden;
+    }
+    .hero-card {
+      position: relative;
+      padding: 42px 40px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--accent);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
     h1 {
-      margin: 0 0 28px;
-      font-size: clamp(2rem, 3vw, 2.6rem);
-      letter-spacing: 0.04em;
-      color: #f5f1ff;
-      text-shadow: 0 0 18px rgba(156, 77, 255, 0.4);
+      margin: 24px 0 14px;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      line-height: 1.02;
+    }
+    .subtitle {
+      max-width: 620px;
+      color: rgba(246,244,255,0.78);
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+    .hero-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 30px;
+    }
+    .hero-tile {
+      display: grid;
+      gap: 10px;
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(11, 7, 30, 0.82);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-tile strong {
+      font-size: 1.1rem;
+      display: block;
+      color: var(--text);
+    }
+    .hero-tile span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    .contact-box {
+      display: grid;
+      gap: 16px;
+      padding: 26px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(159, 73, 255, 0.16);
+      margin-top: 24px;
+    }
+    .contact-box a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
     }
     .section {
-      margin-bottom: 24px;
+      padding: 32px;
     }
-    .label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 0.95rem;
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
       color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+    .section-title span {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--primary);
+      display: inline-block;
+    }
+    .form-card {
+      overflow: hidden;
+    }
+    .form-card form {
+      display: grid;
+      gap: 18px;
+    }
+    .field {
+      display: grid;
+      gap: 12px;
+    }
+    .field label {
+      color: var(--muted);
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
-    .input-wrap {
-      position: relative;
-    }
-    input[type="text"], input[type="tel"], input[type="number"] {
+    .field input {
       width: 100%;
       padding: 18px 20px;
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(12, 8, 33, 0.85);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(8, 6, 25, 0.92);
       color: var(--text);
       font-size: 1rem;
-      outline: none;
     }
-    input::placeholder {
-      color: rgba(217, 208, 255, 0.55);
-    }
-    .section-description {
-      margin: 0 0 12px;
-      font-size: 0.95rem;
-      color: var(--muted);
+    .field input::placeholder {
+      color: rgba(246,244,255,0.45);
     }
     .services {
       display: grid;
@@ -87,212 +168,131 @@
       gap: 14px;
     }
     .service-btn {
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 18px;
       padding: 18px 20px;
-      text-align: left;
-      background: rgba(7, 5, 24, 0.8);
+      background: rgba(7, 5, 24, 0.86);
       color: var(--text);
       cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
-      position: relative;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
     }
     .service-btn:hover {
       transform: translateY(-1px);
-      border-color: rgba(156, 77, 255, 0.45);
     }
     .service-btn.active {
-      border-color: #9c4dff;
-      background: rgba(84, 28, 179, 0.24);
-      box-shadow: 0 0 20px rgba(156, 77, 255, 0.22);
+      border-color: var(--primary);
+      box-shadow: 0 0 24px rgba(159, 73, 255, 0.2);
+      background: rgba(96, 42, 177, 0.18);
     }
-    .service-name {
+    .service-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
       font-weight: 700;
-      margin: 0 0 6px;
-      color: #f9f7ff;
     }
     .service-price {
+      color: var(--accent);
       font-size: 0.95rem;
-      color: #9c8df8;
     }
-    .service-btn .badge {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      color: #8b84d9;
-      font-size: 0.85rem;
+    .summary-panel {
+      display: grid;
+      gap: 12px;
+      padding: 22px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-top: 8px;
     }
-    .footer {
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .summary-row strong {
+      color: var(--text);
+    }
+    .actions-bottom {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
       align-items: center;
       justify-content: space-between;
-      margin-top: 12px;
+      margin-top: 16px;
     }
     .submit-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px 32px;
+      padding: 18px 32px;
       border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: linear-gradient(135deg, rgba(156,77,255,0.85), rgba(113,51,255,0.9));
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary-strong));
       color: white;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 16px 40px rgba(156, 77, 255, 0.18);
-      transition: transform .16s ease, filter .16s ease;
+      box-shadow: 0 18px 40px rgba(159, 73, 255, 0.2);
+      transition: transform 0.16s ease, filter 0.16s ease;
     }
-    .submit-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
-    }
+    .submit-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
     .note {
-      color: #b8b0db;
+      color: var(--muted);
       font-size: 0.95rem;
     }
     .error {
       color: #ff7fa4;
-      margin-top: 10px;
-      font-size: 0.94rem;
+      font-size: 0.95rem;
     }
-    @media (max-width: 540px) {
-      .footer {
-        flex-direction: column;
-        align-items: stretch;
-      }
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .hero-card, .form-card { border-radius: 24px; }
+      .hero-card { padding: 28px; }
+      .content { padding: 24px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Bot Service</h1>
-    <form id="orderForm">
-      <div class="section">
-        <label class="label" for="link">1. Линк (LINK)</label>
-        <div class="input-wrap">
-          <input id="link" name="link" type="text" placeholder="Линкээ оруулна уу" required />
+  <main class="page">
+    <section class="hero">
+      <div class="hero-card">
+        <span class="hero-badge">DIGITAL STORE</span>
+        <h1>PREMIUM SMM SOLUTIONS</h1>
+        <p class="subtitle">Сонгосон үйлчилгээний линк, утасны дугаар болон тоогоор захиалга бүртгэгдэж, Telegram руу автоматаар илгээгдэнэ.</p>
+        <div class="hero-grid">
+          <div class="hero-tile">
+            <strong>Ямар үйлчилгээ авах вэ?</strong>
+            <span>IG Followers, FB Page Followers, Reel Like, Post Reaction гэх мэт.</span>
+          </div>
+          <div class="hero-tile">
+            <strong>Баталгаатай хүргэлт</strong>
+            <span>Захиалга өгсний дараа таны мэдээлэл бот руу очно.</span>
+          </div>
+        </div>
+        <div class="contact-box">
+          <a href="tel:85330511">CALL US 85330511</a>
+          <a href="https://instagram.com/Arhat_0625" target="_blank">INSTAGRAM @Arhat_0625</a>
         </div>
       </div>
-      <div class="section">
-        <label class="label" for="phone">2. Холбогдох дугаараа оруулна уу</label>
-        <div class="input-wrap">
-          <input id="phone" name="phone" type="tel" placeholder="Утасны дугаараа оруулна уу" required />
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-description">3. Үйлчилгээг сонгоно уу</div>
-        <div class="services" id="services">
-          <button type="button" class="service-btn" data-service="IG Followers" data-price="7000"> 
-            <div class="service-name">IG Followers</div>
-            <div class="service-price">1k = 7,000₮</div>
-          </button>
-          <button type="button" class="service-btn" data-service="FB Page Followers" data-price="7000">
-            <div class="service-name">FB Page Followers</div>
-            <div class="service-price">1k = 7,000₮</div>
-          </button>
-          <button type="button" class="service-btn" data-service="FB Group Members" data-price="4000">
-            <div class="service-name">FB Group Members</div>
-            <div class="service-price">1k = 4,000₮</div>
-          </button>
-          <button type="button" class="service-btn" data-service="IG Reel/Post Like" data-price="5000">
-            <div class="service-name">IG Reel/Post Like</div>
-            <div class="service-price">1k = 5,000₮</div>
-          </button>
-          <button type="button" class="service-btn" data-service="FB Post Share" data-price="10000">
-            <div class="service-name">FB Post Share</div>
-            <div class="service-price">1k = 10,000₮</div>
-          </button>
-          <button type="button" class="service-btn" data-service="FB Post Reaction" data-price="5000">
-            <div class="service-name">FB Post Reaction</div>
-            <div class="service-price">1k = 5,000₮</div>
-          </button>
-          <button type="button" class="service-btn" data-service="TikTok Like" data-price="6000">
-            <div class="service-name">TikTok Like</div>
-            <div class="service-price">1k = 6,000₮</div>
-          </button>
-        </div>
-      </div>
-      <div class="section">
-        <label class="label" for="count">4. Тоо ширхэг (1 = 1k)</label>
-        <div class="input-wrap">
-          <input id="count" name="count" type="number" min="1" step="1" value="1" required />
-        </div>
-      </div>
-      <div class="footer">
-        <p class="note">Эхлээд бүтээгдэхүүнийг сонгоод дараа нь мэдээллээ бичнэ үү.</p>
-        <button type="submit" class="submit-btn">Захиалга өгөх</button>
-      </div>
-      <p class="error" id="errorText" aria-live="polite"></p>
-    </form>
-  </div>
-  <script>
-    const serviceButtons = document.querySelectorAll('.service-btn');
-    const errorText = document.getElementById('errorText');
-    let selectedService = null;
-
-    serviceButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        serviceButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        selectedService = {
-          name: button.dataset.service,
-          price: button.dataset.price
-        };
-        errorText.textContent = '';
-      });
-    });
-
-    document.getElementById('orderForm').addEventListener('submit', async event => {
-      event.preventDefault();
-      const link = document.getElementById('link').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const count = document.getElementById('count').value.trim();
-
-      if (!link || !phone || !count) {
-        errorText.textContent = 'Бүх талбаруудыг бөглөнө үү.';
-        return;
-      }
-      const countValue = Number(count);
-      if (!Number.isInteger(countValue) || countValue < 1) {
-        errorText.textContent = 'Тоо ширхэг нь 1-аас их, бүхэл тоо байх ёстой.';
-        return;
-      }
-      if (!selectedService) {
-        errorText.textContent = 'Үйлчилгээг сонгоно уу.';
-        return;
-      }
-
-      const orderData = {
-        service: selectedService.name,
-        price: selectedService.price,
-        link,
-        phone,
-        count
-      };
-
-      try {
-        const response = await fetch('/send-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(orderData)
-        });
-
-        const result = await response.json();
-        if (!response.ok || !result.ok) {
-          errorText.textContent = result.error || 'Захиалга илгээхэд алдаа гарлаа.';
-          return;
-        }
-
-        const params = new URLSearchParams(orderData);
-        window.location.href = 'payment.html?' + params.toString();
-      } catch (err) {
-        errorText.textContent = 'Сервертэй холбогдож чадсангүй. Дахин оролдоно уу.';
-      }
-    });
-  </script>
-</body>
-</html>
+      <div class="form-card">
+        <form id="orderForm">
+          <div class="section">
+            <div class="section-title"><span></span>1. Линк (LINK)</div>
+            <div class="field">
+              <input id="link" name="link" type="text" placeholder="Линкээ оруулна уу" required />
+            </div>
+          </div>
+          <div class="section">
+            <div class="section-title"><span></span>2. Холбогдох дугаараа оруулна уу</div>
+            <div class="field">
+              <input id="phone" name="phone" type="tel" placeholder="Утасны дугаараа оруулна уу" required />
+            </div>
+          </div>
+          <div class="section">
+            <div class="section-title"><span></span>3. Үйлчилгээг сонгоно уу</div>
+            <div class="services" id="services">
+              <button type="button" class="service-btn" data-service="IG Followers" data-price="7000">
+                <div class="service-label"><span>IG Followers</span><span>7,000₮</span></div>
+                <div class="service-price">1k = 7,000₮</div>
+       
