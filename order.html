@@ -18,9 +18,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top left, rgba(124, 70, 255, 0.18), transparent 18%),
-                  radial-gradient(circle at bottom right, rgba(81, 38, 207, 0.2), transparent 16%),
-                  linear-gradient(180deg, #08070e 0%, #100d23 100%);
+      background:
+        radial-gradient(circle at top left, rgba(124, 70, 255, 0.18), transparent 18%),
+        radial-gradient(circle at bottom right, rgba(81, 38, 207, 0.2), transparent 16%),
+        linear-gradient(180deg, #08070e 0%, #100d23 100%),
+        url('bg.jpg') center/cover no-repeat;
+      background-blend-mode: screen, screen, normal, normal;
       color: var(--text);
       font-family: Inter, system-ui, sans-serif;
       padding: 24px;
