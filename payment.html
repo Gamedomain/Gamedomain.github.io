@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+!DOCT
+      display: grid;YPE html>
 <html lang="mn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QPay Төлбөр - Neon Захиалга</title>
+  <title>QPay Төлбөр - Bot Service</title>
   <style>
     :root {
       --bg: #180641;
@@ -37,7 +38,6 @@
     }
     .content {
       padding: 36px;
-      display: grid;
       gap: 24px;
     }
     h1 {
@@ -140,4 +140,27 @@
         <div class="qr-frame">
           <img src="qpay.png" alt="QPay QR" />
         </div>
-        <p class="pay-note">QR кодыг уншуулж QPay-ээр төлбөрөө хийсний дараа доорх 
+        <p class="pay-note">QR кодыг уншуулж QPay-ээр төлбөрөө хийсний дараа доорх “БОЛСОН” товчийг дарна уу.</p>
+      </div>
+      <div class="summary">
+        <div class="summary-item"><span>Линк</span><strong id="summaryLink">---</strong></div>
+        <div class="summary-item"><span>Утас</span><strong id="summaryPhone">---</strong></div>
+        <div class="summary-item"><span>Тоо ширхэг</span><strong id="summaryCount">---</strong></div>
+      </div>
+      <button id="paidButton" class="done-btn">БОЛСОН</button>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const link = params.get('link') || '---';
+    const phone = params.get('phone') || '---';
+    const count = params.get('count') || '---';
+    document.getElementById('summaryLink').textContent = link;
+    document.getElementById('summaryPhone').textContent = phone;
+    document.getElementById('summaryCount').textContent = count + 'k ширхэг';
+    document.getElementById('paidButton').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
