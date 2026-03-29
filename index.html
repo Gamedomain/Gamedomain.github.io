@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neon Захиалга</title>
+  <title>Neon 1k Захиалга</title>
   <style>
     :root {
       --bg: #090912;
@@ -21,9 +21,12 @@
       margin: 0;
       min-height: 100vh;
       font-family: Inter, system-ui, sans-serif;
-      background: radial-gradient(circle at top, rgba(133, 79, 255, 0.28), transparent 25%),
-                  radial-gradient(circle at bottom right, rgba(136, 70, 255, 0.18), transparent 18%),
-                  linear-gradient(180deg, #07070c 0%, #0d0c16 100%);
+      background:
+        radial-gradient(circle at top, rgba(133, 79, 255, 0.28), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(136, 70, 255, 0.18), transparent 18%),
+        linear-gradient(180deg, #07070c 0%, #0d0c16 100%),
+        url('bg.jpg') center/cover no-repeat;
+      background-blend-mode: screen, screen, normal, normal;
       color: var(--text);
       display: flex;
       align-items: center;
@@ -166,7 +169,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Захиалга өгөх</h1>
+    <h1>Neon 1k Захиалга</h1>
     <form id="orderForm">
       <div class="section">
         <label class="label" for="link">1. Линк (LINK)</label>
@@ -214,9 +217,9 @@
         </div>
       </div>
       <div class="section">
-        <label class="label" for="count">4. Тоо ширхэг</label>
+        <label class="label" for="count">4. Тоо ширхэг (1000-аар)</label>
         <div class="input-wrap">
-          <input id="count" name="count" type="number" min="1" step="1" value="1000" required />
+          <input id="count" name="count" type="number" min="1000" step="1000" value="1000" required />
         </div>
       </div>
       <div class="footer">
@@ -243,7 +246,7 @@
       });
     });
 
-    document.getElementById('orderForm').addEventListener('submit', event => {
+    document.getElementById('orderForm').addEventListener('submit', async event => {
       event.preventDefault();
       const link = document.getElementById('link').value.trim();
       const phone = document.getElementById('phone').value.trim();
@@ -253,18 +256,42 @@
         errorText.textContent = 'Бүх талбаруудыг бөглөнө үү.';
         return;
       }
+      const countValue = Number(count);
+      if (countValue < 1000 || countValue % 1000 !== 0) {
+        errorText.textContent = 'Тоо ширхэг нь 1000-аар нэмэгдэх ёстой.';
+        return;
+      }
       if (!selectedService) {
         errorText.textContent = 'Үйлчилгээг сонгоно уу.';
         return;
       }
-      const params = new URLSearchParams({
+
+      const orderData = {
         service: selectedService.name,
         price: selectedService.price,
         link,
         phone,
         count
-      });
-      window.location.href = 'order.html?' + params.toString();
+      };
+
+      try {
+        const response = await fetch('/send-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          errorText.textContent = result.error || 'Захиалга илгээхэд алдаа гарлаа.';
+          return;
+        }
+
+        const params = new URLSearchParams(orderData);
+        window.location.href = 'payment.html?' + params.toString();
+      } catch (err) {
+        errorText.textContent = 'Сервертэй холбогдож чадсангүй. Дахин оролдоно уу.';
+      }
     });
   </script>
 </body>
