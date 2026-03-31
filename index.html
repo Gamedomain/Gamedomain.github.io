@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Standoff gold</title>
-
   <style>
     :root {
       --bg: #0f172a;
@@ -13,7 +12,12 @@
       --muted: #94a3b8;
       --accent: #f59e0b;
       --accent-dark: #d97706;
+      --danger: #ef4444;
       font-family: Inter, system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
@@ -30,104 +34,224 @@
       padding: 28px;
       border-radius: 24px;
       background: rgba(15, 23, 42, 0.96);
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.45);
     }
 
-    h1 { margin-bottom: 20px; }
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: -0.04em;
+    }
 
-    .field { margin-top: 16px; }
+    .field {
+      margin-top: 18px;
+    }
 
-    input {
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    input,
+    textarea,
+    select {
       width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #334155;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
       background: #0f172a;
-      color: white;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(245, 158, 11, 0.8);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .qr-card {
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 20px;
+      background: #111827;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .qr-card p {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .qr-card img {
+      width: 100%;
+      max-width: 320px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 16px;
+      background: #0f172a;
+      object-fit: contain;
+    }
+
+    .hint {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     button {
-      margin-top: 20px;
       width: 100%;
-      padding: 14px;
+      padding: 16px 20px;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      font-weight: bold;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #0f172a;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
-    #status { margin-top: 15px; }
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    #status {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(30, 41, 59, 0.9);
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .status-error {
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .status-success {
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #86efac;
+    }
+
+    .note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
-
 <body>
+  <section class="container">
+    <h1>Standoff gold</h1>
+    <form id="orderForm">
+      <div class="field">
+        <label for="phone">Утасны дугаар
+          <input id="phone" name="phone" type="tel" placeholder="90000000" required />
+        </label>
+      </div>
 
-<section class="container">
-  <h1>Standoff gold</h1>
+      <div class="field">
+        <label for="amount">Хэдэн алтан ширхэг авах
+          <input id="amount" name="amount" type="number" min="1" step="1" placeholder="Жишээ: 100" required />
+        </label>
+      </div>
 
-  <form id="orderForm">
+      <div class="qr-card" style="text-align:center;">
+  <img src="monpay-qr.png" alt="QR" style="max-width:200px; border-radius:12px;">
+</div>
 
-    <div class="field">
-      <label>Утасны дугаар</label>
-      <input id="phone" type="tel" required>
+      <div class="field">
+        <label for="proofText">Гүйлгээ хийсэн хуулга / нотолгоо
+          <textarea id="proofText" name="proofText" placeholder="Гүйлгээний дугаар, банкны нэр, эсвэл холбоос бичнэ үү"></textarea>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="receiptFile">Хэрэв та зураг эсвэл баримт илгээх бол
+          <input id="receiptFile" name="receiptFile" type="file" accept="image/*,.pdf" />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Болсон</button>
+      </div>
+    </form>
+
+    <div id="status" class="status-info">
+      Fill the form and press Болсон to send the order to Telegram.
     </div>
 
-    <div class="field">
-      <label>Хэдэн алтан ширхэг авах</label>
-      <input id="amount" type="number" required>
-    </div>
+    <p class="note">
+      Төлбөрийн QR зургаа `monpay-qr.png` файлын оронд оруулж, дараа нь Telegram bot-ийн токен болон чат ID-г доор script-д тохируулна.
+    </p>
+  </section>
 
-    <div class="field">
-      <label>Graffiti зарсан зургаа энд оруулна уу!</label>
-      <input id="receiptFile" type="file" accept="image/*" required>
-    </div>
+  <script>
+    const botToken = 8697174872:AAE69AWBSkS1Ap3_Gmhu5TbXVc7f4AWvMws;
+    const chatId = 7241705636;
+    const statusEl = document.getElementById("status");
+    const form = document.getElementById("orderForm");
 
-    <button type="submit">Болсон</button>
+    function showStatus(message, type = "info") {
+      statusEl.textContent = message;
+      statusEl.className = "";
+      if (type === "success") {
+        statusEl.classList.add("status-success");
+      } else if (type === "error") {
+        statusEl.classList.add("status-error");
+      }
+    }
 
-  </form>
+    async function sendTelegramMessage(text) {
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      const body = {
+        chat_id: chatId,
+        text,
+        parse_mode: "HTML"
+      };
 
-  <div id="status">Fill and send</div>
-</section>
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
 
-<script>
-const botToken = "YOUR_BOT_TOKEN_HERE";
-const chatId = "YOUR_CHAT_ID_HERE";
+      return response.json();
+    }
 
-const form = document.getElementById("orderForm");
-const statusEl = document.getElementById("status");
+    async function sendTelegramDocument(file, caption) {
+      const url = `https://api.telegram.org/bot${botToken}/sendDocument`;
+      const formData = new FormData();
+      formData.append("chat_id", chatId);
+      formData.append("document", file);
+      formData.append("caption", caption);
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const phone = document.getElementById("phone").value;
-  const amount = document.getElementById("amount").value;
-  const file = document.getElementById("receiptFile").files[0];
-
-  const message = `📌 Standoff gold захиалга\n\n` +
-    `Утас: ${phone}\n` +
-    `Алт: ${amount}`;
-
-  const formData = new FormData();
-  formData.append("chat_id", chatId);
-  formData.append("document", file);
-  formData.append("caption", message);
-
-  try {
-    statusEl.innerText = "Sending...";
-
-    await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
-      method: "POST",
-      body: formData
-    });
-
-    statusEl.innerText = "✅ Амжилттай илгээгдлээ!";
-    form.reset();
-
-  } catch (err) {
-    statusEl.innerText = "❌ Алдаа гарлаа!";
-  }
-});
-</script>
-
-</body>
-</html>
+      const response = await fetch(url, {
+        method: "POST",
+        body: formData
+      });
