@@ -210,8 +210,8 @@
   </section>
 
   <script>
-    const botToken = 8697174872:AAE69AWBSkS1Ap3_Gmhu5TbXVc7f4AWvMws;
-    const chatId = 7241705636;
+    const botToken = "8697174872:AAE69AWBSkS1Ap3_Gmhu5TbXVc7f4AWvMws";
+    const chatId = "7241705636";
     const statusEl = document.getElementById("status");
     const form = document.getElementById("orderForm");
 
@@ -226,9 +226,9 @@
     }
 
     async function sendTelegramMessage(text) {
-      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      const url = `https://api.telegram.org/bot${8697174872:AAE69AWBSkS1Ap3_Gmhu5TbXVc7f4AWvMws}/sendMessage`;
       const body = {
-        chat_id: chatId,
+        chat_id: 7241705636,
         text,
         parse_mode: "HTML"
       };
@@ -245,9 +245,9 @@
     }
 
     async function sendTelegramDocument(file, caption) {
-      const url = `https://api.telegram.org/bot${botToken}/sendDocument`;
+      const url = `https://api.telegram.org/bot${8697174872:AAE69AWBSkS1Ap3_Gmhu5TbXVc7f4AWvMws}/sendDocument`;
       const formData = new FormData();
-      formData.append("chat_id", chatId);
+      formData.append("7241705636", chatId);
       formData.append("document", file);
       formData.append("caption", caption);
 
@@ -255,3 +255,50 @@
         method: "POST",
         body: formData
       });
+
+    return response.json();
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (botToken === "8697174872:AAE69AWBSkS1Ap3_Gmhu5TbXVc7f4AWvMws" || chatId === "7241705636") {
+        showStatus("Telegram ботын токен эсвэл чат ID-г засварлах шаардлагатай. Script дотор тохируулна уу.", "error");
+        return;
+      }
+
+      const phone = document.getElementById("phone").value.trim();
+      const amount = document.getElementById("amount").value.trim();
+      const proofText = document.getElementById("proofText").value.trim() || "Гүйлгээний нотолгоо ороогүй";
+      const receiptFile = document.getElementById("receiptFile").files[0];
+
+      if (!phone || !amount) {
+        showStatus("Утасны дугаар болон алтны хэмжээ шаардлагатай.", "error");
+        return;
+      }
+
+      const message = `📌 <b>Standoff gold захиалга</b>\n\n` +
+        `<b>Утас:</b> ${phone}\n` +
+        `<b>Алтны ширхэг:</b> ${amount}\n` +
+        `<b>Гүйлгээний хуудас:</b> ${proofText}`;
+
+      try {
+        showStatus("Мэдээллийг Telegram руу илгээж байна...", "info");
+
+        if (receiptFile) {
+          await sendTelegramDocument(receiptFile, message);
+          showStatus("Таны захиалга болон баримт Telegram руу амжилттай илгэгдлээ.", "success");
+        } else {
+          await sendTelegramMessage(message);
+          showStatus("Таны захиалга Telegram руу амжилттай илгэгдлээ.", "success");
+        }
+
+        form.reset();
+      } catch (error) {
+        console.error(error);
+        showStatus("Telegram руу илгээх явцад алдаа гарсан. Дахин оролдоно уу.", "error");
+      }
+    });
+  </script>
+</body>
+</html>
